@@ -1,0 +1,10 @@
+<configuration>
+  <property>
+    <name>dfs.datanode.data.dir</name>
+    <value>file:///data/1/dfs/dn,file:///data/2/dfs/dn,file:///data/3/dfs/dn,file:///data/4/dfs/dn</value>
+  </property>
+  <property>
+    <name>dfs.permissions.superusergroup</name>
+    <value>hadoop</value>
+  </property>
+</configuration>

@@ -8,14 +8,14 @@ RUN apt-get update &&\
         hadoop-yarn-resourcemanager\
         hadoop-hdfs-namenode\
         hue &&\
-    apt-get autoremove -y --purge
+    apt-get autoremove -y --purge &&\
+    apt-get clean
 
 # Set owner of zookeeper directory
 RUN mkdir -p /var/lib/zookeeper && chown -R zookeeper. /var/lib/zookeeper
 
 # Copy configuration files
 COPY ./hdfs-site.xml /root/hdfs-site.xml
-COPY ./mapred-site.xml /root/mapred-site.xml
 COPY ./hue.ini /etc/hue/conf/hue.ini
 
 # Start

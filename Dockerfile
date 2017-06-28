@@ -24,3 +24,6 @@ RUN apt-get update &&\
 
 # Create volumes
 VOLUME ["/data"]
+
+# Copy configuration files
+COPY ./mapred-site.xml /root/mapred-site.xml

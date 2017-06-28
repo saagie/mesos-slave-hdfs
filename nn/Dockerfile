@@ -1,14 +1,8 @@
-FROM saagie/mesos-slave-dind:0.3.0_mesos-1.1.01_docker-17.03.1_ubuntu-14.04.4
-
-# Install CDH repository
-RUN curl "http://archive.cloudera.com/cdh5/one-click-install/trusty/amd64/cdh5-repository_1.0_all.deb" > ~/cdh5-repository.deb &&\
-    dpkg -i ~/cdh5-repository.deb &&\
-    rm ~/cdh5-repository.deb
+FROM saagie.dk/mesos-slave-dind-hdfs
 
 # Install packages
 RUN apt-get update &&\
-    apt-get autoremove --purge -y zookeeper &&\
-    apt-get install -y\
+    apt-get install -y --force-yes\
         zookeeper=3.4.5+cdh5.11.1+111-1.cdh5.11.1.p0.6~trusty-cdh5.11.1\
         zookeeper-server\
         hadoop-yarn-resourcemanager\
@@ -17,15 +11,12 @@ RUN apt-get update &&\
     apt-get autoremove -y --purge
 
 # Set owner of zookeeper directory
-RUN chown -R zookeeper. /var/lib/zookeeper
+RUN mkdir -p /var/lib/zookeeper && chown -R zookeeper. /var/lib/zookeeper
 
 # Copy configuration files
 COPY ./hdfs-site.xml /root/hdfs-site.xml
 COPY ./mapred-site.xml /root/mapred-site.xml
 COPY ./hue.ini /etc/hue/conf/hue.ini
-
-# Create volumes
-VOLUME ["/data"]
 
 # Start
 COPY ./wrapdocker /usr/local/bin/wrapdocker

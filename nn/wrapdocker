@@ -212,5 +212,6 @@ if ! mountpoint -q /tmp; then
 fi
 
 rm /var/run/docker.pid
+ps axf | grep docker | grep -v grep | awk '{print "kill -9 " $1}' | sh
 /etc/init.d/docker start
 mesos-slave "${@:2}"
